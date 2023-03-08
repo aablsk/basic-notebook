@@ -7,10 +7,10 @@ resource "google_service_account" "training" {
   ]
 }
 
-resource "google_storage_bucket" "tensorboard_logs" {
+resource "google_storage_bucket" "training" {
   project                     = var.project_id
   location                    = var.region
-  name                        = local.tensorboard_log_bucket_name
+  name                        = local.training_bucket_name
   uniform_bucket_level_access = true
 
   depends_on = [
@@ -18,26 +18,8 @@ resource "google_storage_bucket" "tensorboard_logs" {
   ]
 }
 
-resource "google_storage_bucket" "model_artifacts" {
-    project                     = var.project_id
-  location                    = var.region
-  name                        = local.model_artifacts_bucket_name
-  uniform_bucket_level_access = true
-
-  depends_on = [
-    module.enabled_google_apis
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "training_tensorboard_logs" {
-  bucket  = google_storage_bucket.tensorboard_logs.name
-
-  member = "serviceAccount:${google_service_account.training.email}"
-  role   = "roles/storage.admin"
-}
-
-resource "google_storage_bucket_iam_member" "training_model_artifacts" {
-  bucket  = google_storage_bucket.model_artifacts.name
+resource "google_storage_bucket_iam_member" "training" {
+  bucket = google_storage_bucket.training.name
 
   member = "serviceAccount:${google_service_account.training.email}"
   role   = "roles/storage.admin"
