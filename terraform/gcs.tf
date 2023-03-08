@@ -29,14 +29,14 @@ resource "google_storage_bucket" "model_artifacts" {
   ]
 }
 
-resource "google_storage_bucket_iam_member" "tensorboard_logs" {
+resource "google_storage_bucket_iam_member" "training_tensorboard_logs" {
   bucket  = google_storage_bucket.tensorboard_logs.name
 
   member = "serviceAccount:${google_service_account.training.email}"
   role   = "roles/storage.admin"
 }
 
-resource "google_storage_bucket_iam_member" "tensorboard_logs" {
+resource "google_storage_bucket_iam_member" "training_model_artifacts" {
   bucket  = google_storage_bucket.model_artifacts.name
 
   member = "serviceAccount:${google_service_account.training.email}"
