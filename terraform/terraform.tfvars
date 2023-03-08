@@ -1,5 +1,5 @@
-organization_id = "1048225355525"
-project_id = "mlcoaching-week2-aablsk"
-notebook_users = ["user:admin@bielski.altostrat.com"]
+organization_id = "YOUR_ORGANISATION_ID"
+project_id = "YOUR_PROJECT_ID" 
+notebook_users = ["user:YOUR_PRINCIPAL_EMAIL"]
 region = "us-central1"
 zone = "us-central1-b"
