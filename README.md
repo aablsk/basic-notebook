@@ -9,3 +9,9 @@
 2. Authenticate with your @google.com user `gcloud auth login $YOUR_LDAP@google.com` and follow instructions to authenticate.
 3. Clone the repository `gcloud source repos clone rafaelsanchez-diffusion-ddim-keras-vertex --project=cloud-ce-shared-csr`
 4. Revoke previous authentication `gcloud auth revoke $YOUR_LDAP@google.com`
+
+# Training job
+1. Replace values for `REGION`, `BUCKET_URI`, `SERVICE_ACCOUNT`, `PROJECT_ID` in `training/create_training_job.py
+2. Navigate into training folder `cd training`
+3. Create training job by running `python3 create_training_job.py`
+4. Wait for training to complete and artifacts to be saved to GCS.

@@ -7,6 +7,15 @@ resource "google_service_account" "training" {
   ]
 }
 
+resource "google_service_account" "serving" {
+  project    = var.project_id
+  account_id = local.sa_serving_name
+
+  depends_on = [
+    module.enabled_google_apis
+  ]
+}
+
 resource "google_storage_bucket" "training" {
   project                     = var.project_id
   location                    = var.region
@@ -22,5 +31,12 @@ resource "google_storage_bucket_iam_member" "training" {
   bucket = google_storage_bucket.training.name
 
   member = "serviceAccount:${google_service_account.training.email}"
+  role   = "roles/storage.admin"
+}
+
+resource "google_storage_bucket_iam_member" "serving" {
+  bucket = google_storage_bucket.training.name
+
+  member = "serviceAccount:${google_service_account.serving.email}"
   role   = "roles/storage.admin"
 }
