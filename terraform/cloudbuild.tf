@@ -14,7 +14,7 @@ resource "google_cloudbuild_trigger" "render-pipeline" {
     name  = var.repo_name
 
     push {
-      branch = "^main$"
+      branch = "^week4$"
     }
   }
 
