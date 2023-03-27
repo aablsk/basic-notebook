@@ -13,7 +13,7 @@ steps:
       #!/bin/bash
       cd pipeline && . venv/bin/activate
       python submit_pipeline_job.py
-  - name: gcloud
+  - name: gcr.io/cloud-builders/gcloud
     args:
       - functions
       - deploy
