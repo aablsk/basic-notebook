@@ -53,10 +53,8 @@ resource "google_project_iam_member" "cloudbuild_vertex_admin" {
   member  = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
 
-resource "google_cloudfunctions_function_iam_member" "cloudbuild_trigger_func" {
+resource "google_project_iam_member" "cloudbuild_trigger_func" {
   project        = var.project_id
-  region         = var.region
-  cloud_function = google_cloudfunctions_function.trigger_func.name
   role           = "roles/cloudfunctions.developer"
   member         = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
