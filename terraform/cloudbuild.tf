@@ -58,3 +58,10 @@ resource "google_project_iam_member" "cloudbuild_trigger_func" {
   role           = "roles/cloudfunctions.developer"
   member         = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
+
+resource "google_service_account_iam_member" "trigger_func_sa_user_cloudbuild" {
+
+  service_account_id = google_service_account.trigger_func.id
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.cloudbuild.email}"
+}
