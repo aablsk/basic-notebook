@@ -13,6 +13,7 @@ module "enabled_google_apis" {
     "notebooks.googleapis.com",
     "artifactregistry.googleapis.com",
     "bigquery.googleapis.com",
-    "cloudbuild.googleapis.com"
+    "cloudbuild.googleapis.com",
+    "cloudfunctions.googleapis.com"
   ]
 }

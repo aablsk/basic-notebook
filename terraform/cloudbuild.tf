@@ -46,3 +46,17 @@ resource "google_service_account_iam_member" "training_sa_user_cloudbuild" {
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
+
+resource "google_project_iam_member" "cloudbuild_vertex_admin" {
+  project = var.project_id
+  role    = "roles/aiplatform.admin"
+  member  = "serviceAccount:${google_service_account.cloudbuild.email}"
+}
+
+resource "google_cloudfunctions_function_iam_member" "cloudbuild_trigger_func" {
+  project        = var.project_id
+  region         = var.region
+  cloud_function = google_cloudfunctions_function.trigger_func.name
+  role           = "roles/cloudfunctions.developer"
+  member         = "serviceAccount:${google_service_account.cloudbuild.email}"
+}

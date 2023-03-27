@@ -13,5 +13,12 @@ steps:
       #!/bin/bash
       cd pipeline && . venv/bin/activate
       python submit_pipeline_job.py
+  - name: gcloud
+    args:
+      - functions
+      - deploy
+      - trigger_func
+      - --region=us-central1
+      - --source=pipeline/pipeline_trigger_function/
 options:
   logging: CLOUD_LOGGING_ONLY
