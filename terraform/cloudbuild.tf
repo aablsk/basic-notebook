@@ -34,23 +34,15 @@ resource "google_storage_bucket_iam_member" "pipeline_definition_cloudbuild" {
   role   = "roles/storage.admin"
 }
 
-# bucket to store vertex ai pipeline definition
-resource "google_storage_bucket" "pipeline_definition" {
-  project                     = var.project_id
-  name                        = "vertexai_pipeline_definition_${var.project_id}"
-  uniform_bucket_level_access = true
-  location                    = var.region
-  force_destroy               = true # TODO: remove this so buckets don't get deleted on terraform destroy
-
-  versioning {
-    enabled = true
-  }
+resource "google_project_iam_member" "cloudbuild_logging" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
 
-# give SA access to read pipeline definition
-resource "google_storage_bucket_iam_member" "pipeline_definition" {
-  bucket = google_storage_bucket.pipeline_definition.name
+resource "google_service_account_iam_member" "training_sa_user_cloudbuild" {
 
-  member = "serviceAccount:${google_service_account.training.email}"
-  role   = "roles/storage.objectViewer"
+  service_account_id = google_service_account.training.id
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.cloudbuild.email}"
 }
