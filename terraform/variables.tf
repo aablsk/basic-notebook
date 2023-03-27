@@ -22,3 +22,13 @@ variable organization_id {
     type = string
     description = "Organization ID for removing blocking organization policies on project level"
 }
+
+variable repo_owner {
+    type = string
+    description = "The Github repository's owner to trigger rendering of the pipeline definition from."
+}  
+
+variable repo_name {
+    type = string
+    description = "The Github repository's name to trigger rendering of the pipeline definition from."
+}

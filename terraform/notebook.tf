@@ -1,9 +1,9 @@
-resource "google_notebooks_instance" "week2" {
+resource "google_notebooks_instance" "notebook" {
   project  = var.project_id
   name     = local.notebook_name
   location = var.zone
   # access
-  service_account = google_service_account.week2_notebook.email
+  service_account = google_service_account.notebook.email
   # networking
   network = module.vpc.network_id
   subnet  = module.vpc.subnets_ids[0]
@@ -18,7 +18,7 @@ resource "google_notebooks_instance" "week2" {
   }
   accelerator_config {
     core_count = 1
-    type       = "NVIDIA_TESLA_V100"
+    type       = "NVIDIA_TESLA_T4"
   }
 
   no_public_ip    = false
@@ -30,7 +30,7 @@ resource "google_notebooks_instance" "week2" {
   ]
 }
 
-resource "google_service_account" "week2_notebook" {
+resource "google_service_account" "notebook" {
   project    = var.project_id
   account_id = local.sa_notebook_name
 
@@ -42,8 +42,27 @@ resource "google_service_account" "week2_notebook" {
 resource "google_service_account_iam_member" "notebook_users" {
   for_each = toset(var.notebook_users)
 
-  service_account_id = google_service_account.week2_notebook.id
+  service_account_id = google_service_account.notebook.id
   role               = "roles/iam.serviceAccountUser"
   member             = each.value
 }
 
+resource "google_project_iam_member" "notebook_vertex_admin" {
+  project = var.project_id
+  role    = "roles/aiplatform.admin"
+  member  = "serviceAccount:${google_service_account.notebook.email}"
+}
+
+
+resource "google_project_iam_member" "notebook_bq_admin" {
+  project = var.project_id
+  role    = "roles/bigquery.admin"
+  member  = "serviceAccount:${google_service_account.notebook.email}"
+}
+
+resource "google_storage_bucket_iam_member" "notebook" {
+  bucket = google_storage_bucket.training.name
+
+  member = "serviceAccount:${google_service_account.notebook.email}"
+  role   = "roles/storage.admin"
+}

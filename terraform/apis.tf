@@ -11,6 +11,8 @@ module "enabled_google_apis" {
     "dns.googleapis.com",
     "iam.googleapis.com",
     "notebooks.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "bigquery.googleapis.com",
+    "cloudbuild.googleapis.com"
   ]
 }

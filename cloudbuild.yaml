@@ -1,0 +1,17 @@
+steps:
+  - name: python
+    script: |
+      #!/bin/bash
+      cd pipeline
+      python -m venv venv && . venv/bin/activate
+      pip install -U -r requirements.txt
+      python pipeline.py
+  - name: gcr.io/cloud-builders/gsutil # get skaffold build cache
+    args: ['cp', "pipeline/pipeline.json", '$_PIPELINE_BUCKET/']
+  - name: python
+    script: |
+      #!/bin/bash
+      cd pipeline && . venv/bin/activate
+      python submit_pipeline_job.py
+options:
+  logging: CLOUD_LOGGING_ONLY

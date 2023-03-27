@@ -1,3 +1,6 @@
 .terraform*
 *.tfstate*
 terraform.tfvars
+.pipeline
+pipeline.json
+*.yml
